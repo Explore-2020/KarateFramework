@@ -1,0 +1,47 @@
+plugins {
+    id("java")
+}
+
+ext{
+    karateVersion = '1.0.1'
+}
+group = "org.sharon"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation("com.intuit.karate:karate-junit5:1.4.1")
+    testImplementation("com.intuit.karate:karate-apache:0.9.6")
+    implementation("net.masterthought:maven-cucumber-reporting:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    implementation("com.jayway.jsonpath:json-path:2.9.0")
+    implementation("com.googlecode.json-simple:json-simple:1.1.1")
+}
+
+sourceSets{
+    test{
+        java{
+            srcDir file('src/test/java')
+            exclude('**/*UiRunner*.java')
+        }
+        resources {
+            srcDir file('src/test/java')
+            exclude('**/*.java')
+        }
+    }
+}
+
+test{
+    useJUnitPlatform()
+    systemProperty 'karate.options', System.properties.getProperty('karate.options')
+    systemProperty 'karate.env', System.properties.getProperty('karate.env')
+    outputs.upToDateWhen {false}
+}
+
+task karateDebug(type:JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    main = 'com.intuit.karate.cli.Main'
+}
