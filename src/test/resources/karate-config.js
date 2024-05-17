@@ -2,6 +2,7 @@ function fn(){
 
     var env = karate.env;
     karate.log('karate env', env);
+    karate.log('karate env', env);
     karate.configure('ssl', true);
     karate.configure('readTimeout', 5000);
     karate.configure('logPrettyRequest', true);
